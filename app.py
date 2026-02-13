@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
-app.secret_key = os.getenv("SECRET_KEY")
+app.secret_key = os.getenv("SECRET_KEY", "fallback-secret")
 
 UPLOAD_FOLDER = "static/uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
@@ -19,12 +19,43 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL not set")
 
+
 def get_db():
     return psycopg2.connect(DATABASE_URL)
 
 
+# ===== AUTO TABLE CREATION
+def create_tables():
+    conn = get_db()
+    cur = conn.cursor()
+
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(100) UNIQUE NOT NULL,
+        email VARCHAR(100) NOT NULL,
+        password VARCHAR(255) NOT NULL
+    );
+    """)
+
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS pest_info (
+        id SERIAL PRIMARY KEY,
+        pest_name VARCHAR(100),
+        reason TEXT,
+        solution TEXT,
+        prevention TEXT
+    );
+    """)
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+
 # ===== FILE TYPE SECURITY
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
+
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -60,7 +91,7 @@ def register():
         )
         conn.commit()
 
-    except:
+    except Exception:
         return "Username already exists"
 
     finally:
@@ -186,5 +217,8 @@ def logout():
     return redirect("/")
 
 
+# ===== AUTO TABLE RUN ON STARTUP
+create_tables()
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)
