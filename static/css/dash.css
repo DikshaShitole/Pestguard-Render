@@ -1,0 +1,98 @@
+/* RESET */
+body{
+    margin:0;
+    font-family:'Segoe UI', sans-serif;
+}
+
+/* NAVBAR */
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 40px;
+    background:#1f7a5c;
+    color:white;
+}
+
+/* LOGO */
+.logo{
+    font-size:22px;
+    font-weight:bold;
+}
+
+/* NAV LINKS */
+nav a{
+    margin:0 15px;
+    color:white;
+    text-decoration:none;
+    font-weight:500;
+}
+
+nav a:hover{
+    color:#c9ffd6;
+}
+
+/* USER SECTION */
+.user-section{
+    font-size:14px;
+}
+
+.logout-btn{
+    margin-left:10px;
+    padding:6px 12px;
+    background:#ff4d4d;
+    color:white;
+    border-radius:5px;
+    text-decoration:none;
+}
+
+.logout-btn:hover{
+    background:#d93636;
+}
+
+/* HERO SECTION */
+.hero{
+    height:90vh;
+    background: linear-gradient(
+        rgba(0,0,0,0.4),
+        rgba(0,0,0,0.4)
+    ),
+    url("../images/bg.jpg");
+
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    align-items:center;
+    padding-left:80px;
+    color:white;
+}
+
+/* HERO TEXT */
+.hero-text{
+    max-width:500px;
+}
+
+.hero-text h1{
+    font-size:45px;
+    margin-bottom:20px;
+}
+
+.hero-text p{
+    font-size:18px;
+    margin-bottom:30px;
+}
+
+/* BUTTON */
+.btn-main{
+    padding:14px 28px;
+    background:#00c853;
+    color:white;
+    border-radius:30px;
+    text-decoration:none;
+    font-size:16px;
+    transition:0.3s;
+}
+
+.btn-main:hover{
+    background:#009624;
+}

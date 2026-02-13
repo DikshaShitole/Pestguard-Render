@@ -1,0 +1,82 @@
+/* GLOBAL */
+body{
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, #0f9d58, #0b7a43);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+}
+
+/* LOGIN / REGISTER BOX */
+.login-container,
+.upload-container,
+.result-container{
+
+    background:white;
+    color:#333;
+    padding:40px;
+    border-radius:10px;
+    width:350px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,0.3);
+}
+
+/* HEADINGS */
+h2{
+    margin-bottom:20px;
+    color:#0f9d58;
+}
+
+/* INPUT FIELDS */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="file"]{
+
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    border-radius:5px;
+    border:1px solid #ccc;
+    font-size:15px;
+}
+
+/* BUTTON */
+button{
+
+    width:100%;
+    padding:12px;
+    background:#0f9d58;
+    color:white;
+    border:none;
+    border-radius:5px;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#0b7a43;
+}
+
+/* LINKS */
+a{
+    display:block;
+    margin-top:15px;
+    text-decoration:none;
+    color:#0f9d58;
+    font-weight:bold;
+}
+
+a:hover{
+    text-decoration:underline;
+}
+
+/* RESULT IMAGE */
+.result-container img{
+    margin:20px 0;
+    border-radius:8px;
+}

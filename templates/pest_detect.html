@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Pest Detection</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="upload-container">
+
+<h2>Upload Leaf Image</h2>
+
+<form action="/predict" method="POST" enctype="multipart/form-data">
+
+<input type="file" name="leaf_image" required>
+
+<button type="submit">Detect Pest</button>
+
+</form>
+
+<a href="/dashboard">Back</a>
+
+</div>
+
+</body>
+</html>

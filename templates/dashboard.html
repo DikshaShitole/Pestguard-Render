@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>PestGuard Dashboard</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dash.css') }}">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+
+<div class="logo">🐛 PestGuard</div>
+
+<nav>
+<a href="#">Home</a>
+<a href="#">About</a>
+<a href="#">Services</a>
+<a href="#">Pests</a>
+</nav>
+
+<div class="user-section">
+Welcome, {{ user }}
+<a href="/logout" class="logout-btn">Logout</a>
+</div>
+
+</header>
+
+<!-- HERO SECTION -->
+<section class="hero">
+
+<div class="hero-text">
+
+<h1>Prevent, Protect & Eliminate Pests</h1>
+
+<p>
+Smart pest detection using AI. Upload leaf images,
+identify pests and get sustainable solutions instantly.
+</p>
+
+<a href="/detect" class="btn-main">Get Started</a>
+
+</div>
+
+</section>
+
+</body>
+</html>
