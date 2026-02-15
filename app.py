@@ -172,7 +172,8 @@ def predict():
 
     try:
         with open(filepath, "rb") as f:
-            response = requests.post(api, files={"file": f}, timeout=15)
+            response = requests.post(api, files={"file": f}, timeout=60)
+
 
         if response.status_code != 200:
             return "ML Service Error"
