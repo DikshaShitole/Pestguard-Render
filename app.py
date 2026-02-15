@@ -19,10 +19,8 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL not set")
 
-
 def get_db():
-    return psycopg2.connect(DATABASE_URL)
-
+    return psycopg2.connect(DATABASE_URL, sslmode="require")
 
 # ===== AUTO TABLE CREATION
 def create_tables():
@@ -162,18 +160,17 @@ def predict():
     if not allowed_file(file.filename):
         return "Invalid file type"
 
-    filename = secure_filename(file.filename)
-    filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+    import uuid
+    filename = str(uuid.uuid4()) + "_" + secure_filename(file.filename)
 
+    filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
     file.save(filepath)
 
-    # ===== CALL ML API
     api = "https://pestguard-ml-backend.onrender.com/predict"
 
     try:
         with open(filepath, "rb") as f:
-            response = requests.post(api, files={"file": f}, timeout=60)
-
+            response = requests.post(api, files={"file": f}, timeout=120)
 
         if response.status_code != 200:
             return "ML Service Error"
@@ -183,10 +180,13 @@ def predict():
     except Exception as e:
         return f"Prediction API Error: {str(e)}"
 
+    finally:
+        if os.path.exists(filepath):
+            os.remove(filepath)
+
     pest = data.get("prediction", "Unknown")
     confidence = round(data.get("confidence", 0) * 100, 2)
 
-    # ===== FETCH DB DATA
     conn = get_db()
     cur = conn.cursor()
 
