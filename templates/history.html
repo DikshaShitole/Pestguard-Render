@@ -1,51 +1,101 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<title>Detection History</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<title>History</title>
 
 <style>
 
-/* HISTORY CARD GRID */
-.history-grid{
-    display:grid;
-    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
-    margin-top:20px;
+/* GLOBAL */
+body{
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, #0f9d58, #0b7a43);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
 }
 
-/* SINGLE CARD */
-.history-card{
+/* MAIN BOX */
+.history-container{
     background:white;
+    color:#333;
+    padding:30px;
     border-radius:10px;
-    padding:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.2);
-    transition:0.3s;
+    width:90%;
+    max-width:900px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.3);
     text-align:center;
 }
 
-.history-card:hover{
-    transform:translateY(-5px);
-    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+/* TABLE WRAPPER */
+.table-wrapper{
+    overflow-x:auto;
 }
 
-.history-card img{
+/* TABLE DESIGN */
+.history-table{
     width:100%;
-    height:160px;
-    object-fit:cover;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+.history-table th{
+    background:#0f9d58;
+    color:white;
+    padding:12px;
+}
+
+.history-table td{
+    padding:10px;
+    border-bottom:1px solid #ddd;
+}
+
+/* IMAGE */
+.history-table img{
+    width:120px;
     border-radius:8px;
-    margin-bottom:10px;
 }
 
-.history-card h4{
-    color:#0f9d58;
-    margin:5px 0;
+/* ROW HOVER */
+.history-table tr:hover{
+    background:#f5f5f5;
 }
 
-.history-card p{
-    margin:3px 0;
+/* BUTTON LINK */
+a{
+    display:inline-block;
+    margin-top:20px;
+    text-decoration:none;
+    color:white;
+    background:#0f9d58;
+    padding:12px 20px;
+    border-radius:5px;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+a:hover{
+    background:#0b7a43;
+}
+
+/* MOBILE RESPONSIVE */
+@media screen and (max-width:600px){
+
+.history-table img{
+    width:80px;
+}
+
+.history-container{
+    padding:20px;
+}
+
+.history-table th,
+.history-table td{
     font-size:14px;
+}
+
 }
 
 </style>
@@ -54,37 +104,40 @@
 
 <body>
 
-<div class="result-container">
+<div class="history-container">
 
-<h2>Your Detection History</h2>
+<h2>Detection History</h2>
 
-{% if records %}
+<div class="table-wrapper">
 
-<div class="history-grid">
+<table class="history-table">
 
-{% for row in records %}
+<tr>
+    <th>Image</th>
+    <th>Pest</th>
+    <th>Confidence</th>
+    <th>Date</th>
+</tr>
 
-<div class="history-card">
+{% for record in records %}
+<tr>
 
-<img src="{{ url_for('static', filename='uploads/' + row[0]) }}">
+<td>
+<img src="{{ url_for('static', filename='uploads/' + record[0]) }}">
+</td>
 
-<h4>{{ row[1] }}</h4>
+<td>{{ record[1] }}</td>
 
-<p><b>Confidence:</b> {{ row[2] }}%</p>
+<td>{{ record[2] }}%</td>
 
-<p><b>Date:</b> {{ row[3] }}</p>
+<td>{{ record[3] }}</td>
 
-</div>
-
+</tr>
 {% endfor %}
 
+</table>
+
 </div>
-
-{% else %}
-
-<p>No History Found</p>
-
-{% endif %}
 
 <a href="/dashboard">Back To Dashboard</a>
 
