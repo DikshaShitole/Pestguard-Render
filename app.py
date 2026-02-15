@@ -202,13 +202,14 @@ def predict():
     conn.close()
 
     return render_template(
-        "result.html",
-        pest=pest,
-        confidence=confidence,
-        solution=pest_data[1] if pest_data else "N/A",
-        prevention=pest_data[2] if pest_data else "N/A",
-        image="uploads/" + filename
-    )
+    "result.html",
+    pest=pest,
+    confidence=confidence,
+    solution=pest_data[1] if pest_data else "N/A",
+    prevention=pest_data[2] if pest_data else "N/A",
+    image="uploads/" + filename
+)
+
 
 
 # ================= LOGOUT
