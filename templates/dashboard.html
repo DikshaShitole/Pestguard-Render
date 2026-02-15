@@ -1,147 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>History</title>
-
-<style>
-
-/* GLOBAL */
-body{
-    margin:0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to right, #0f9d58, #0b7a43);
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:white;
-}
-
-/* MAIN BOX */
-.history-container{
-    background:white;
-    color:#333;
-    padding:30px;
-    border-radius:10px;
-    width:90%;
-    max-width:900px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.3);
-    text-align:center;
-}
-
-/* TABLE WRAPPER */
-.table-wrapper{
-    overflow-x:auto;
-}
-
-/* TABLE DESIGN */
-.history-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:20px;
-}
-
-.history-table th{
-    background:#0f9d58;
-    color:white;
-    padding:12px;
-}
-
-.history-table td{
-    padding:10px;
-    border-bottom:1px solid #ddd;
-}
-
-/* IMAGE */
-.history-table img{
-    width:120px;
-    border-radius:8px;
-}
-
-/* ROW HOVER */
-.history-table tr:hover{
-    background:#f5f5f5;
-}
-
-/* BUTTON LINK */
-a{
-    display:inline-block;
-    margin-top:20px;
-    text-decoration:none;
-    color:white;
-    background:#0f9d58;
-    padding:12px 20px;
-    border-radius:5px;
-    font-weight:bold;
-    transition:0.3s;
-}
-
-a:hover{
-    background:#0b7a43;
-}
-
-/* MOBILE RESPONSIVE */
-@media screen and (max-width:600px){
-
-.history-table img{
-    width:80px;
-}
-
-.history-container{
-    padding:20px;
-}
-
-.history-table th,
-.history-table td{
-    font-size:14px;
-}
-
-}
-
-</style>
-
+    <title>PestGuard Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dash.css') }}">
 </head>
 
 <body>
 
-<div class="history-container">
+<!-- NAVBAR -->
+<header class="navbar">
 
-<h2>Detection History</h2>
+    <div class="logo">🐛 PestGuard</div>
 
-<div class="table-wrapper">
+    <nav>
+        <a href="#" class="nav-link">Home</a>
+        <a href="#" class="nav-link">About</a>
+        <a href="#" class="nav-link">Services</a>
+        <a href="/history" class="nav-link">View History</a>
+    </nav>
 
-<table class="history-table">
+    <div class="user-section">
+        Welcome, {{ user }}
+        <a href="/logout" class="logout-btn">Logout</a>
+    </div>
 
-<tr>
-    <th>Image</th>
-    <th>Pest</th>
-    <th>Confidence</th>
-    <th>Date</th>
-</tr>
+</header>
 
-{% for record in records %}
-<tr>
+<!-- HERO SECTION -->
+<section class="hero">
 
-<td>
-<img src="{{ url_for('static', filename='uploads/' + record[0]) }}">
-</td>
+    <div class="hero-text">
 
-<td>{{ record[1] }}</td>
+        <h1>Prevent, Protect & Eliminate Pests</h1>
 
-<td>{{ record[2] }}%</td>
+        <p>
+            Smart pest detection using AI. Upload leaf images,
+            identify pests and get sustainable solutions instantly.
+        </p>
 
-<td>{{ record[3] }}</td>
+        <a href="/detect" class="btn-main">Get Started</a>
 
-</tr>
-{% endfor %}
+    </div>
 
-</table>
-
-</div>
-
-<a href="/dashboard">Back To Dashboard</a>
-
-</div>
+</section>
 
 </body>
 </html>
