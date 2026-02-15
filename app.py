@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 app.secret_key = os.getenv("SECRET_KEY", "fallback-secret")
 
-UPLOAD_FOLDER = "static/uploads" 
+UPLOAD_FOLDER = os.path.join("static", "uploads")
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
@@ -152,10 +152,9 @@ def predict():
     if "user" not in session:
         return redirect("/")
 
-    file = request.files["leaf_image"]
-
-    if file.filename == "":
-        return "No file selected"
+    file = request.files.get("leaf_image")
+     if not file:
+      return "No file uploaded"
 
     if not allowed_file(file.filename):
         return "Invalid file type"
@@ -180,11 +179,8 @@ def predict():
     except Exception as e:
         return f"Prediction API Error: {str(e)}"
 
-    finally:
-        if os.path.exists(filepath):
-            os.remove(filepath)
 
-    pest = data.get("prediction", "Unknown")
+    pest = data.get("prediction", "Unknown").strip()
     confidence = round(data.get("confidence", 0) * 100, 2)
 
     conn = get_db()
