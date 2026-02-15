@@ -1,82 +1,116 @@
-/* GLOBAL */
-body{
-    margin:0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to right, #0f9d58, #0b7a43);
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:white;
+/* 1. GLOBAL RESET & THEME */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Using a gradient of your Dark Olive color */
+    background: linear-gradient(135deg, #2A2E02 0%, #1B1E01 100%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
 }
 
-/* LOGIN / REGISTER BOX */
+/* 2. CONTAINERS (The "Cute" Rounded Look) */
 .login-container,
 .upload-container,
-.result-container{
-
-    background:white;
-    color:#333;
-    padding:40px;
-    border-radius:10px;
-    width:350px;
-    text-align:center;
-    box-shadow:0 5px 20px rgba(0,0,0,0.3);
+.result-container {
+    background: #ffffff;
+    color: #333;
+    padding: 40px;
+    border-radius: 15px; /* Increased for a "cuter" professional feel */
+    width: 380px;
+    text-align: center;
+    /* Added a soft shadow using your theme color */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease;
 }
 
-/* HEADINGS */
-h2{
-    margin-bottom:20px;
-    color:#0f9d58;
+.login-container:hover {
+    transform: translateY(-5px); /* Subtle lift effect */
 }
 
-/* INPUT FIELDS */
+/* 3. HEADINGS */
+h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #2A2E02; /* Your Dark Olive Color */
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* 4. INPUT FIELDS */
 input[type="text"],
 input[type="password"],
 input[type="email"],
-input[type="file"]{
-
-    width:100%;
-    padding:10px;
-    margin:10px 0;
-    border-radius:5px;
-    border:1px solid #ccc;
-    font-size:15px;
+input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    margin: 12px 0;
+    box-sizing: border-box; /* Prevents width overflow */
+    border-radius: 8px;
+    border: 2px solid #eee;
+    font-size: 15px;
+    transition: 0.3s;
+    outline: none;
 }
 
-/* BUTTON */
-button{
-
-    width:100%;
-    padding:12px;
-    background:#0f9d58;
-    color:white;
-    border:none;
-    border-radius:5px;
-    font-size:16px;
-    cursor:pointer;
-    transition:0.3s;
+/* Highlight the box when the user clicks it */
+input:focus {
+    border-color: #2A2E02;
+    background-color: #f9faf0; 
 }
 
-button:hover{
-    background:#0b7a43;
+/* 5. BUTTONS */
+button {
+    width: 100%;
+    padding: 14px;
+    background: #2A2E02; /* Primary Dark Olive */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
 }
 
-/* LINKS */
-a{
-    display:block;
-    margin-top:15px;
-    text-decoration:none;
-    color:#0f9d58;
-    font-weight:bold;
+button:hover {
+    background: #414703; /* Slightly lighter for the hover */
+    box-shadow: 0 4px 15px rgba(42, 46, 2, 0.3);
 }
 
-a:hover{
-    text-decoration:underline;
+button:active {
+    transform: scale(0.98); /* "Click" effect */
 }
 
-/* RESULT IMAGE */
-.result-container img{
-    margin:20px 0;
-    border-radius:8px;
+/* 6. LINKS & NAVIGATION */
+a {
+    display: block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #2A2E02;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #414703;
+}
+
+/* 7. RESULT COMPONENTS */
+.result-container img {
+    max-width: 100%;
+    height: auto;
+    margin: 20px 0;
+    border-radius: 12px;
+    border: 3px solid #f0f0f0;
+}
+
+.status-text {
+    font-weight: bold;
+    color: #2A2E02;
 }
