@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Detection History</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+<style>
+/* Extra table styling */
+
+.history-table{
+    width:100%;
+    border-collapse: collapse;
+    margin-top:20px;
+}
+
+.history-table th,
+.history-table td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+.history-table th{
+    background:#0f9d58;
+    color:white;
+}
+
+.history-table img{
+    width:80px;
+    border-radius:5px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="result-container">
+
+<h2>Your Detection History</h2>
+
+{% if records %}
+
+<table class="history-table">
+
+<tr>
+    <th>Image</th>
+    <th>Pest</th>
+    <th>Confidence</th>
+    <th>Date</th>
+</tr>
+
+{% for row in records %}
+
+<tr>
+    <td>
+        <img src="{{ url_for('static', filename='uploads/' + row[0]) }}">
+    </td>
+
+    <td>{{ row[1] }}</td>
+    <td>{{ row[2] }}%</td>
+    <td>{{ row[3] }}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% else %}
+
+<p>No History Found</p>
+
+{% endif %}
+
+<a href="/dashboard">Back To Dashboard</a>
+
+</div>
+
+</body>
+</html>
