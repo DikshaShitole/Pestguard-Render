@@ -6,30 +6,48 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
 <style>
-/* Extra table styling */
 
-.history-table{
-    width:100%;
-    border-collapse: collapse;
+/* HISTORY CARD GRID */
+.history-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
     margin-top:20px;
 }
 
-.history-table th,
-.history-table td{
-    border:1px solid #ddd;
-    padding:10px;
+/* SINGLE CARD */
+.history-card{
+    background:white;
+    border-radius:10px;
+    padding:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+    transition:0.3s;
     text-align:center;
 }
 
-.history-table th{
-    background:#0f9d58;
-    color:white;
+.history-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
 
-.history-table img{
-    width:80px;
-    border-radius:5px;
+.history-card img{
+    width:100%;
+    height:160px;
+    object-fit:cover;
+    border-radius:8px;
+    margin-bottom:10px;
 }
+
+.history-card h4{
+    color:#0f9d58;
+    margin:5px 0;
+}
+
+.history-card p{
+    margin:3px 0;
+    font-size:14px;
+}
+
 </style>
 
 </head>
@@ -42,30 +60,25 @@
 
 {% if records %}
 
-<table class="history-table">
-
-<tr>
-    <th>Image</th>
-    <th>Pest</th>
-    <th>Confidence</th>
-    <th>Date</th>
-</tr>
+<div class="history-grid">
 
 {% for row in records %}
 
-<tr>
-    <td>
-        <img src="{{ url_for('static', filename='uploads/' + row[0]) }}">
-    </td>
+<div class="history-card">
 
-    <td>{{ row[1] }}</td>
-    <td>{{ row[2] }}%</td>
-    <td>{{ row[3] }}</td>
-</tr>
+<img src="{{ url_for('static', filename='uploads/' + row[0]) }}">
+
+<h4>{{ row[1] }}</h4>
+
+<p><b>Confidence:</b> {{ row[2] }}%</p>
+
+<p><b>Date:</b> {{ row[3] }}</p>
+
+</div>
 
 {% endfor %}
 
-</table>
+</div>
 
 {% else %}
 
