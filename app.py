@@ -48,6 +48,17 @@ def create_tables():
     );
     """)
 
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS history (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(100),
+        image VARCHAR(255),
+        pest VARCHAR(100),
+        confidence FLOAT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    """)
+
     conn.commit()
     cur.close()
     conn.close()
@@ -183,6 +194,20 @@ def predict():
     pest = data.get("prediction", "Unknown")
     confidence = round(data.get("confidence", 0) * 100, 2)
 
+    # ===== SAVE HISTORY =====
+    conn = get_db()
+    cur = conn.cursor()
+
+    cur.execute("""
+        INSERT INTO history(username,image,pest,confidence)
+        VALUES(%s,%s,%s,%s)
+    """, (session["user"], filename, pest, confidence))
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    # ===== GET PEST INFO =====
     conn = get_db()
     cur = conn.cursor()
 
@@ -205,6 +230,31 @@ def predict():
         prevention=pest_data[2] if pest_data else "N/A",
         image="uploads/" + filename
     )
+
+
+# ================= HISTORY PAGE
+@app.route("/history")
+def history():
+
+    if "user" not in session:
+        return redirect("/")
+
+    conn = get_db()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT image,pest,confidence,created_at
+        FROM history
+        WHERE username=%s
+        ORDER BY created_at DESC
+    """, (session["user"],))
+
+    records = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return render_template("history.html", records=records)
 
 
 # ================= LOGOUT
