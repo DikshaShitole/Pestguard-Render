@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, session
 import psycopg2
 import requests
 import os
+import uuid
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -9,8 +10,8 @@ app = Flask(__name__)
 
 app.secret_key = os.getenv("SECRET_KEY", "fallback-secret")
 
-UPLOAD_FOLDER = os.path.join("static", "uploads")
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER 
+UPLOAD_FOLDER = "static/uploads"
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # ===== DATABASE CONNECTION
@@ -21,6 +22,7 @@ if not DATABASE_URL:
 
 def get_db():
     return psycopg2.connect(DATABASE_URL, sslmode="require")
+
 
 # ===== AUTO TABLE CREATION
 def create_tables():
@@ -53,7 +55,6 @@ def create_tables():
 
 # ===== FILE TYPE SECURITY
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
-
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -152,14 +153,14 @@ def predict():
     if "user" not in session:
         return redirect("/")
 
-    file = request.files.get("leaf_image")
-     if not file:
-      return "No file uploaded"
+    file = request.files["leaf_image"]
+
+    if file.filename == "":
+        return "No file selected"
 
     if not allowed_file(file.filename):
         return "Invalid file type"
 
-    import uuid
     filename = str(uuid.uuid4()) + "_" + secure_filename(file.filename)
 
     filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
@@ -179,8 +180,7 @@ def predict():
     except Exception as e:
         return f"Prediction API Error: {str(e)}"
 
-
-    pest = data.get("prediction", "Unknown").strip()
+    pest = data.get("prediction", "Unknown")
     confidence = round(data.get("confidence", 0) * 100, 2)
 
     conn = get_db()
@@ -198,14 +198,13 @@ def predict():
     conn.close()
 
     return render_template(
-    "result.html",
-    pest=pest,
-    confidence=confidence,
-    solution=pest_data[1] if pest_data else "N/A",
-    prevention=pest_data[2] if pest_data else "N/A",
-    image="uploads/" + filename
-)
-
+        "result.html",
+        pest=pest,
+        confidence=confidence,
+        solution=pest_data[1] if pest_data else "N/A",
+        prevention=pest_data[2] if pest_data else "N/A",
+        image="uploads/" + filename
+    )
 
 
 # ================= LOGOUT
