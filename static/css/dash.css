@@ -13,6 +13,19 @@ body{
     background:#1f7a5c;
     color:white;
 }
+.nav-link{
+    background:none;
+    border:none;
+    padding:0;
+    color:white;
+    text-decoration:none;
+    font-weight:500;
+}
+
+.nav-link:hover{
+    color:#c9ffd6;
+}
+
 
 /* LOGO */
 .logo{
